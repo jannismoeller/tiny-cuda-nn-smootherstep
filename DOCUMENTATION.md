@@ -130,8 +130,8 @@ The number of encoded dimensions is `n_levels * n_features_per_level`.
 	                           // than that of the preceding level.
 	"interpolation": "Linear"  // How to interpolate nearby grid
 	                           // lookups. Can be "Nearest", "Linear",
-	                           // or "Smoothstep" (for smooth deri-
-	                           // vatives).
+	                           // or "Smoothstep", "Smootherstep" 
+							   // (for smooth derivatives).
 }
 ```
 

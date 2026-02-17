@@ -985,6 +985,37 @@ __device__ inline float smoothstep_2nd_derivative(float val) {
 	return 6.0f - 12.0f * val;
 }
 
+__device__ inline float smootherstep(float val) {
+	// assume val is in [0, 1], otherwise use __saturate()
+	// smoother version of smoothstep, with zero 1st and 2nd derivatives at the endpoints. 
+	// defined as 6x^5 - 15x^4 + 10x^3.
+	// factorized for fma instructions: x^3 * ((6x - 15) * x + 10)
+
+    float poly = fmaf(val, 6.0f, -15.0f);
+    poly = fmaf(poly, val, 10.0f);
+    float x_sq = val * val;
+    return x_sq * (val * poly);
+}
+
+__device__ inline float smootherstep_derivative(float val) {
+	// derivative of smootherstep
+	// 30x^4 - 60x^3 + 30x^2
+	// factorization: 30 * (x^2 - x)^2
+
+	float poly = fmaf(val, val, -val);
+    return 30.0f * poly * poly;
+}
+
+__device__ inline float smootherstep_2nd_derivative(float val) {
+	// second derivative of smootherstep
+	// 120x^3 - 180x^2 + 60x
+	// factorization: 60x * ((2x - 3) * x + 1)
+
+	float poly = fmaf(2.0f, val, -3.0f);
+    poly = fmaf(poly, val, 1.0f);
+    return 60.0f * val * poly;
+}
+
 __device__ inline float identity_fun(float val) {
 	return val;
 }

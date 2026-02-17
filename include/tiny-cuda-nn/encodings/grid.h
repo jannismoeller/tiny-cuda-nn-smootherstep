@@ -101,15 +101,21 @@ __global__ void kernel_grid(
 	float pos_derivative[N_POS_DIMS];
 	uvec<N_POS_DIMS> pos_grid;
 
-	if (interpolation_type == InterpolationType::Nearest || interpolation_type == InterpolationType::Linear) {
-		TCNN_PRAGMA_UNROLL
-		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative);
-		}
-	} else {
+	if (interpolation_type == InterpolationType::Smoothstep) {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
 			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, smoothstep, smoothstep_derivative);
+		}
+	} else if (interpolation_type == InterpolationType::Smootherstep) {
+		TCNN_PRAGMA_UNROLL
+		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, smootherstep, smootherstep_derivative);
+		}
+	} else {
+		// Interpolation type Linear or Nearest
+		TCNN_PRAGMA_UNROLL
+		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative);
 		}
 	}
 
@@ -257,15 +263,20 @@ __global__ void kernel_grid_backward(
 	float pos[N_POS_DIMS];
 	uvec<N_POS_DIMS> pos_grid;
 
-	if (interpolation_type == InterpolationType::Nearest || interpolation_type == InterpolationType::Linear) {
+	if (interpolation_type == InterpolationType::Smoothstep) {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_grid[dim], scale, identity_fun);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_grid[dim], scale, smoothstep);
+		}
+	} else if (interpolation_type == InterpolationType::Smootherstep) {
+		TCNN_PRAGMA_UNROLL
+		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_grid[dim], scale, smootherstep);
 		}
 	} else {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_grid[dim], scale, smoothstep);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_grid[dim], scale, identity_fun);
 		}
 	}
 
@@ -398,15 +409,20 @@ __global__ void kernel_grid_backward_input_backward_grid(
 	float pos_derivative[N_POS_DIMS];
 	uvec<N_POS_DIMS> pos_grid;
 
-	if (interpolation_type == InterpolationType::Nearest || interpolation_type == InterpolationType::Linear) {
+	if (interpolation_type == InterpolationType::Smoothstep) {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, smoothstep, smoothstep_derivative);
+		}
+	} else if (interpolation_type == InterpolationType::Smootherstep) {
+		TCNN_PRAGMA_UNROLL
+		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, smootherstep, smootherstep_derivative);
 		}
 	} else {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, smoothstep, smoothstep_derivative);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative);
 		}
 	}
 
@@ -500,15 +516,20 @@ __global__ void kernel_grid_backward_input_backward_input(
 	float pos_2nd_derivative[N_POS_DIMS];
 	uvec<N_POS_DIMS> pos_grid;
 
-	if (interpolation_type == InterpolationType::Nearest || interpolation_type == InterpolationType::Linear) {
+	if (interpolation_type == InterpolationType::Smoothstep) {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_2nd_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative, identity_2nd_derivative);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_2nd_derivative[dim], &pos_grid[dim], scale, smoothstep, smoothstep_derivative, smoothstep_2nd_derivative);
+		}
+	} else if (interpolation_type == InterpolationType::Smootherstep) {
+		TCNN_PRAGMA_UNROLL
+		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_2nd_derivative[dim], &pos_grid[dim], scale, smootherstep, smootherstep_derivative, smootherstep_2nd_derivative);
 		}
 	} else {
 		TCNN_PRAGMA_UNROLL
 		for (uint32_t dim = 0; dim < N_POS_DIMS; ++dim) {
-			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_2nd_derivative[dim], &pos_grid[dim], scale, smoothstep, smoothstep_derivative, smoothstep_2nd_derivative);
+			pos_fract(positions_in(dim, i), &pos[dim], &pos_derivative[dim], &pos_2nd_derivative[dim], &pos_grid[dim], scale, identity_fun, identity_derivative, identity_2nd_derivative);
 		}
 	}
 
@@ -556,7 +577,7 @@ __global__ void kernel_grid_backward_input_backward_input(
 		for (uint32_t idx = 0; idx < (1 << (N_POS_DIMS-1)); ++idx) {
 			// from diagonal part of Hessian; d(doutput_d[grad_dim])_d[grad_dim]
 			// NOTE: LinearInterpolations' diagonal part is 0.
-			if (interpolation_type == InterpolationType::Smoothstep) {
+			if (interpolation_type == InterpolationType::Smoothstep || interpolation_type == InterpolationType::Smootherstep) {
 				float weight_2nd_diag = grad_in_diag[grad_dim];
 				uvec<N_POS_DIMS> pos_grid_local;
 
@@ -1177,6 +1198,11 @@ public:
 						for (uint32_t i = 0; i < {N_POS_DIMS}; ++i) {{
 							pos[i] = smoothstep(pos[i]);
 						}}
+					}} else if (InterpolationType::{INTERP_TYPE} == InterpolationType::Smootherstep) {{
+						TCNN_PRAGMA_UNROLL
+						for (uint32_t i = 0; i < {N_POS_DIMS}; ++i) {{
+							pos[i] = smootherstep(pos[i]);
+						}}
 					}}
 
 					{VEC_OUT} result(({T})0.0f);
@@ -1271,6 +1297,12 @@ public:
 						for (uint32_t i = 0; i < {N_POS_DIMS}; ++i) {{
 							pos_derivative[i] = smoothstep_derivative(pos[i]);
 							pos[i] = smoothstep(pos[i]);
+						}}
+					}} else if (InterpolationType::{INTERP_TYPE} == InterpolationType::Smootherstep) {{
+						TCNN_PRAGMA_UNROLL
+						for (uint32_t i = 0; i < {N_POS_DIMS}; ++i) {{
+							pos_derivative[i] = smootherstep_derivative(pos[i]);
+							pos[i] = smootherstep(pos[i]);
 						}}
 					}}
 
@@ -1417,6 +1449,13 @@ public:
 							pos_derivative[i] = smoothstep_derivative(pos[i]);
 							pos[i] = smoothstep(pos[i]);
 						}}
+					}} else if (InterpolationType::{INTERP_TYPE} == InterpolationType::Smootherstep) {{
+						TCNN_PRAGMA_UNROLL
+						for (uint32_t i = 0; i < {N_POS_DIMS}; ++i) {{
+							pos_2nd_derivative[i] = smootherstep_2nd_derivative(pos[i]); 
+							pos_derivative[i] = smootherstep_derivative(pos[i]);
+							pos[i] = smootherstep(pos[i]);
+						}}
 					}}
 
 					if (dL_dparams) {{
@@ -1470,7 +1509,7 @@ public:
 							for (uint32_t idx = 0; idx < (1 << ({N_POS_DIMS}-1)); ++idx) {{
 								// From diagonal part of Hessian; d(doutput_d[grad_dim])_d[grad_dim]
 								// NOTE: LinearInterpolations' diagonal part is 0.
-								if (InterpolationType::{INTERP_TYPE} == InterpolationType::Smoothstep)  {{
+								if (InterpolationType::{INTERP_TYPE} == InterpolationType::Smoothstep || InterpolationType::{INTERP_TYPE} == InterpolationType::Smootherstep)  {{
 									float weight_2nd_diag = grad_in_diag[grad_dim];
 									{UVEC_POS} pos_grid_local = pos_grid;
 
