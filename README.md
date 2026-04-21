@@ -338,13 +338,20 @@ Among others, this framework powers the following publications:
 
 > __Extracting Triangular 3D Models, Materials, and Lighting From Images__  
 > [Jacob Munkberg](https://research.nvidia.com/person/jacob-munkberg), [Jon Hasselgren](https://research.nvidia.com/person/jon-hasselgren), [Tianchang Shen](http://www.cs.toronto.edu/~shenti11/), [Jun Gao](http://www.cs.toronto.edu/~jungao/), [Wenzheng Chen](http://www.cs.toronto.edu/~wenzheng/), [Alex Evans](https://research.nvidia.com/person/alex-evans), [Thomas Müller](https://tom94.net), [Sanja Fidler](https://www.cs.toronto.edu/~fidler/)  
-> __CVPR (Oral)__, June 2022  
+> _CVPR (Oral), June 2022_  
 > __[Website](https://nvlabs.github.io/nvdiffrec/)&nbsp;/ [Paper](https://nvlabs.github.io/nvdiffrec/assets/paper.pdf)&nbsp;/ [Video](https://nvlabs.github.io/nvdiffrec/assets/video.mp4)&nbsp;/ [BibTeX](https://nvlabs.github.io/nvdiffrec/assets/bib.txt)__
 
 > __Real-time Neural Radiance Caching for Path Tracing__  
 > [Thomas Müller](https://tom94.net), [Fabrice Rousselle](https://research.nvidia.com/person/fabrice-rousselle), [Jan Novák](http://jannovak.info), [Alexander Keller](https://research.nvidia.com/person/alex-keller)  
 > _ACM Transactions on Graphics (__SIGGRAPH__), August 2021_  
 > __[Paper](https://tom94.net/data/publications/mueller21realtime/mueller21realtime.pdf)&nbsp;/ [GTC talk](https://gtc21.event.nvidia.com/media/Fully%20Fused%20Neural%20Network%20for%20Radiance%20Caching%20in%20Real%20Time%20Rendering%20%5BE31307%5D/1_liqy6k1c)&nbsp;/ [Video](https://tom94.net/data/publications/mueller21realtime/mueller21realtime.mp4)&nbsp;/ [Interactive results viewer](https://tom94.net/data/publications/mueller21realtime/interactive-viewer/)&nbsp;/ [BibTeX](https://tom94.net/data/publications/mueller21realtime/mueller21realtime.bib)__
+
+
+> __NVGS: Neural Visibility for Occlusion Culling in 3D Gaussian Splatting__  
+> [Brent Zoomers](https://brent-zoomers.github.io/), [Florian Hahlbohm](https://fhahlbohm.github.io/), [Joni Vanherck](https://www.uhasselt.be/en/who-is-who/joni-vanherck), [Lode Jorissen](https://www.ljorissen.be/), [Marcus Magnor](https://graphics.tu-bs.de/people/magnor), [Nick Michiels](https://www.uhasselt.be/nl/wie-is-wie/nick-michiels)  
+> _CVPR, June 2026_  
+> __[Website](https://brent-zoomers.github.io/nvgs/index.html)&nbsp;/ [Paper](https://arxiv.org/abs/2511.19202)&nbsp;/ [Code](https://github.com/UHasselt-DigitalFutureLab/NVGSViewer)&nbsp;/  [BibTex](https://brent-zoomers.github.io/nvgs/bibtex.txt)&nbsp;__ 
+
 
 
 As well as the following software:
